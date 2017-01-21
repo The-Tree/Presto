@@ -1,4 +1,4 @@
-package com.example.thomas.runner;
+package test.presto;
 
 import org.junit.Test;
 
