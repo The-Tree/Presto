@@ -1,6 +1,8 @@
-package com.androidtutorialpoint.googlemapsapp;
+package test.presto;
+//com.androidtutorialpoint.googlemapsapp
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -8,6 +10,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -24,10 +28,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import test.presto.DisplayMessageActivity;
+
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
+
+    public static final String EXTRA_MESSAGE = "Hi";
 
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
@@ -47,6 +57,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    /*
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(mMap != null ) {
+            mMap.stopAnimation();
+            mMap = null;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(mMap == null ) {
+
+        }
+    }*/
+
+    public void display(View view) throws IllegalStateException{
+
+
+        Intent intent = new Intent(this, DisplayMessageActivity.class);
+        String message = "Hi";
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+
+        System.out.println(1+1);
     }
 
 
