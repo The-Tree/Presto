@@ -1,0 +1,34 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+    <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+
+
+    <CheckBoxPreference
+        android:id="@+id/timebox"
+        android:defaultValue="false"
+        android:title="Time"
+        android:key="@bool/time"
+        android:checked="@bool/time"
+
+        />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="Food Type"
+        android:key="@bool/food_type"
+        android:onClick="test"/>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="Reviews"
+        android:key="@bool/reviews"
+        android:onClick="test"/>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="Has Delivery?"
+        android:key="@bool/has_delivery"
+        android:onClick="test"/>
+</PreferenceScreen>

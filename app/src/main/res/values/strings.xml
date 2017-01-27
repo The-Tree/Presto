@@ -2,4 +2,9 @@
     <string name="app_name">Presto</string>
     <string name="title_activity_maps">Map</string>
     <string name="edit_message">Test</string>
+
+    <bool name="time">false</bool>
+    <bool name="food_type">false</bool>
+    <bool name="reviews">false</bool>
+    <bool name="has_delivery">false</bool>
 </resources>

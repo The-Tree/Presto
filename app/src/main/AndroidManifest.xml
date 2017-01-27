@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="test.presto">
-    <!-- com.androidtutorialpoint.googlemapsapp -->
+    package="com.androidtutorialpoint.googlemapsapp">
 
+    <!-- com.androidtutorialpoint.googlemapsapp -->
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -35,7 +35,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name="com.androidtutorialpoint.googlemapsapp.MapsActivity"
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,7 +43,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DisplayMessageActivity"/>
+        <activity android:name="com.androidtutorialpoint.googlemapsapp.DisplayMessageActivity" />
+        <activity android:name="com.androidtutorialpoint.googlemapsapp.PrestoFilter" />
+        <activity android:name="com.androidtutorialpoint.googlemapsapp.PrestoSettings" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
