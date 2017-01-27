@@ -1,13 +1,20 @@
 package com.androidtutorialpoint.googlemapsapp;
+//com.androidtutorialpoint.googlemapsapp
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.preference.CheckBoxPreference;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -24,12 +31,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.androidtutorialpoint.googlemapsapp.PrestoSettings;
+import com.androidtutorialpoint.googlemapsapp.R;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+    public static final String EXTRA_MESSAGE = "Hi";
+
     private GoogleMap mMap;
+    double latitude;
+    double longitude;
+    private int PROXIMITY_RADIUS = 10000;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
@@ -47,6 +62,73 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    /**
+     * Share button
+     * @param view
+     */
+    public void doShare(View view ) {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = "Here I am!\nLatitude: " + mLastLocation.getLatitude() + "\nLongitude: " + mLastLocation.getLongitude();
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Location!");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    }
+
+    /*
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(mMap != null ) {
+            mMap.stopAnimation();
+            mMap = null;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(mMap == null ) {
+
+        }
+    }*/
+
+    public void display(View view) throws IllegalStateException{
+
+
+        Intent intent = new Intent(this, PrestoSettings.class);
+        startActivity(intent);
+
+        System.out.println(1+1);
+    }
+
+    public void filters(View view) throws IllegalStateException{
+
+
+        Intent intent = new Intent(this, PrestoFilter.class);
+        startActivity(intent);
+
+        System.out.println(1+1);
+    }
+
+    public void list(View view) throws IllegalStateException{
+
+
+        Intent intent = new Intent(this, PrestoFilter.class);
+        startActivity(intent);
+
+        System.out.println(1+1);
+    }
+
+    public void test(View view) {
+        Intent intent = new Intent(this, DisplayMessageActivity.class);
+        String message = "hi";
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
     }
 
 
@@ -77,6 +159,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+
+        ImageView btnRestaurant = (ImageView) findViewById(R.id.list);
+        btnRestaurant.setOnClickListener(new View.OnClickListener() {
+            String Restaurant = "restaurant";
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                mMap.clear();
+                String url = getUrl(latitude, longitude, Restaurant);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = mMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(MapsActivity.this,"Nearby Restaurants", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private String getUrl(double latitude, double longitude, String nearbyPlace) {
+
+        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        googlePlacesUrl.append("location=" + latitude + "," + longitude);
+        googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
+        googlePlacesUrl.append("&type=" + nearbyPlace);
+        googlePlacesUrl.append("&sensor=true");
+        googlePlacesUrl.append("&key=" + "AIzaSyATuUiZUkEc_UgHuqsBJa1oqaODI-3mLs0");
+        Log.d("getUrl", googlePlacesUrl.toString());
+        return (googlePlacesUrl.toString());
     }
 
     protected synchronized void buildGoogleApiClient() {
